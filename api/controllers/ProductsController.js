@@ -1,6 +1,5 @@
 'use strict';
 
-const util = require('util');
 const mongodb =require('mongodb');
 const client = require('./../db');
 

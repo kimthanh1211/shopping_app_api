@@ -4,8 +4,8 @@ module.exports = function(app){
     //to do router
     app.get('/products',productCtrl.get);
     app.get('/product/:productId',productCtrl.detail);
-    app.get('/cart',function(){
-
+    app.get('/cart',function(req,res){
+        res.status(200).send({id: 1,price:10000,products:20000});
     });
 
     //app.router('/products')

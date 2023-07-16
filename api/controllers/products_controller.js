@@ -21,13 +21,14 @@ module.exports ={
                 await cursor.forEach(result => {
                   //console.log(result._id.toString())
                   console.log(result);
-                  var json={
+                  /*var json={
                     statusCode:1,
                     statusMessage:'success',
                     data:result
-                  }
-                  //response.push(result)
-                  response.push(json)
+                  };
+                  response.push(json)*/
+                  response.push(result);
+
                 });
                 res.json(response);
               } catch (err) {

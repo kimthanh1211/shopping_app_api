@@ -27,7 +27,11 @@ module.exports ={
                     data:result
                   };
                   response.push(json)*/
-                  result.id=result._id.toString();
+                  //result.id=result._id.toString();
+                  //result['id'] = result['_id'];
+                  //delete result['_id'];
+                  result.id = result._id;
+                  delete result._id;
                   response.push(result);
                 });
                 res.json(response);

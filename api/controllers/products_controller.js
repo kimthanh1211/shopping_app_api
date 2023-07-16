@@ -31,7 +31,7 @@ module.exports ={
                   //result['id'] = result['_id'];
                   //delete result['_id'];
                   result.id = result._id;
-                  delete result._id;
+                  //delete result._id;
                   response.push(result);
                 });
                 res.json(response);

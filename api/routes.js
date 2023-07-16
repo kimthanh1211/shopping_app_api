@@ -1,12 +1,9 @@
 'use strict';
 module.exports = function(app){
-    //let productCtrl = require('./controllers/ProductsController');
+    let productCtrl = require('./controllers/products_controller');
     //to do router
-    app.get('/products',function(req,res){
-        res.status(404).send({url: req.originalUrl + ' not found???'});
-    });
-    //app.get('/products',productCtrl.get);
-    //app.get('/product/:productId',productCtrl.detail)
+    app.get('/products',productCtrl.get);
+    app.get('/product/:productId',productCtrl.detail)
     //app.router('/products')
         //.get(productCtrl.get)
         //.post(productCtrl.store);

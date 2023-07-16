@@ -3,7 +3,7 @@ module.exports = function(app){
     //let productCtrl = require('./controllers/ProductsController');
     //to do router
     app.get('/products',function(req,res){
-        document.write("Test!");
+        res.status(404).send({url: req.originalUrl + ' not found???'});
     });
     //app.get('/products',productCtrl.get);
     //app.get('/product/:productId',productCtrl.detail)

@@ -1,9 +1,9 @@
 'use strict';
 module.exports = function(app){
-    let productCtrl = require('./api/controllers/productsController');
+    //let productCtrl = require('./controllers/productsController');
     //to do router
-    app.get('/products',productCtrl.get);
-    app.get('/product/:productId',productCtrl.detail)
+    //app.get('/products',productCtrl.get);
+    //app.get('/product/:productId',productCtrl.detail)
     //app.router('/products')
         //.get(productCtrl.get)
         //.post(productCtrl.store);

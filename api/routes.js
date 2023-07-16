@@ -8,6 +8,7 @@ module.exports = function(app){
         res.status(200).send({id: 1,price:10000,products:[]});
     });
 
+
     //app.router('/products')
         //.get(productCtrl.get)
         //.post(productCtrl.store);

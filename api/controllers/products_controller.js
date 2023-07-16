@@ -27,8 +27,8 @@ module.exports ={
                     data:result
                   };
                   response.push(json)*/
+                  result.id=result._id.toString();
                   response.push(result);
-
                 });
                 res.json(response);
               } catch (err) {

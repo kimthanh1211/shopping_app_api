@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(app){
-    let productCtrl = require('./controllers/productsController');
+    let productCtrl = require('./api/controllers/productsController');
     //to do router
     app.get('/products',productCtrl.get);
     app.get('/product/:productId',productCtrl.detail)

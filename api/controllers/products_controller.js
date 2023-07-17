@@ -31,12 +31,7 @@ module.exports ={
                   //result['id'] = result['_id'];
                   //delete result['_id'];
 
-                  //response.push(result);
-
-                  var json={
-                     _id:result._id
-                  };
-                  response.push(json);
+                  response.push(result);
                 });
                 res.json(response);
               } catch (err) {

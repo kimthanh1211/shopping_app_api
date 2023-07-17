@@ -30,7 +30,13 @@ module.exports ={
                   //result.id=result._id.toString();
                   //result['id'] = result['_id'];
                   //delete result['_id'];
-                  response.push(result);
+
+                  //response.push(result);
+
+                  var json={
+                     _id:result._id
+                  };
+                  response.push(json);
                 });
                 res.json(response);
               } catch (err) {

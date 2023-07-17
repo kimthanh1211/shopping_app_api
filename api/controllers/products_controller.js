@@ -33,7 +33,12 @@ module.exports ={
 
                   response.push(result);
                 });
-                res.json(response);
+                var json = {
+                    message:"success",
+                    data:response
+                }
+                //res.json(response);
+                res.json(json);
               } catch (err) {
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }

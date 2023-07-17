@@ -20,7 +20,7 @@ module.exports ={
                 let response=[];
                 await cursor.forEach(result => {
                   //console.log(result._id.toString())
-                  console.log(result);
+                  //console.log(result);
                   /*var json={
                     statusCode:1,
                     statusMessage:'success',
@@ -43,7 +43,7 @@ module.exports ={
           }
         }
         find().catch(console.dir);
-        console.log(res)
+        //console.log(res)
     },
     detail: (req, res) => {
         var ObjectId = mongodb.ObjectId;
@@ -71,7 +71,7 @@ module.exports ={
           }
         }
         find().catch(console.dir);
-        console.log(res)
+        //console.log(res)
     },
 }
 

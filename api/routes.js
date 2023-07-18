@@ -8,8 +8,7 @@ module.exports = function(app){
     app.get('/cart',function(req,res){
         res.status(200).send({id: 1,price:10000,products:[]});
     });
-    app.post('/account/register',accountCtrl.registerAccount)
-    app.post('/account/check_exist',accountCtrl.checkExistAccount)
+    app.post('/account/register',accountCtrl.registerAccount);
 
 
     //app.router('/products')

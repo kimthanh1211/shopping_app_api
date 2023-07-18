@@ -85,8 +85,7 @@ module.exports ={
         find().catch(console.dir);
     },
     getAccountByToken: (req, res) => {
-        var ObjectId = mongodb.ObjectId;
-        let token= new ObjectId(req.params.token);
+        let token= req.params.token;
         let findOneQuery = { token: token };
         async function find() {
           try {

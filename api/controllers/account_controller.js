@@ -34,6 +34,9 @@ module.exports ={
             else if(name == undefined || name == null || name ==""){
                 json.message = "Họ tên không được bỏ trống";
             }
+            else if(phone == undefined || phone == null || phone ==""){
+                json.message = "Số điện thoại không được bỏ trống";
+            }
             else if(address == undefined || address == null || address ==""){
                 json.message = "Địa chỉ không được bỏ trống";
             }
@@ -42,6 +45,9 @@ module.exports ={
             }
             else if(password.length <6 || password.length >24){
                 json.message = "Mật khẩu phải từ 6-24 ký tự";
+            }
+            else if(!validatePhone(phone)){
+                json.message = "Số điện thoại sai định dạng";
             }
             else{
                 try {
@@ -78,7 +84,7 @@ module.exports ={
         }
         find().catch(console.dir);
     },
-    getInfoByToken: (req, res) => {
+    getAccountByToken: (req, res) => {
         var ObjectId = mongodb.ObjectId;
         let token= new ObjectId(req.params.token);
         let findOneQuery = { token: token };
@@ -89,12 +95,20 @@ module.exports ={
             const collection = database.collection(collectionName);
             try {
                 let findOneResult = await collection.findOne(findOneQuery);
-                    if (findOneResult === null) {
-                        console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
-                    } else {
-                    console.log(`Found a recipe with "+token+" as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                if (findOneResult === null) {
+                    console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
+                    res.json({
+                        message:"Không tìm thấy tài khoản",
+                        data: null
+                    });
+                } else {
+                    console.log(`Found a recipe with ${token} as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                    res.json({
+                        message:"success",
+                        data: findOneResult
+                    });
                 }
-                res.json(findOneResult);
+
               } catch (err) {
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
@@ -114,4 +128,7 @@ function containsSpecialChars(str) {
 }
 function validateEmail(str) {
   return (/^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/).test(str);
+}
+function validatePhone(str) {
+  return (/^\d{10}$/).test(str);
 }

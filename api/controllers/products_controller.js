@@ -61,12 +61,20 @@ module.exports ={
             const collection = database.collection(collectionName);
             try {
                 let findOneResult = await collection.findOne(findOneQuery);
-                    if (findOneResult === null) {
-                        console.log("Couldn't find any recipes that contain "+idProduct+" as an id.\n");
-                    } else {
-                    console.log(`Found a recipe with "+idProduct+" as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                if (findOneResult === null) {
+                    console.log("Couldn't find any recipes that contain "+idProduct+" as an id.\n");
+                    res.json({
+                        message:"Không tìm thấy sản phẩm",
+                        data:null
+                    });
+                } else {
+                console.log(`Found a recipe with ${idProduct} as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                    res.json({
+                        message:"success",
+                        data:findOneResult
+                    });
                 }
-                res.json(findOneResult);
+
               } catch (err) {
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }

@@ -11,7 +11,8 @@ module.exports ={
     registerAccount:(req,res)=>{
         var json = {
             message:"success",
-            data:req.body
+            data:req.params,
+            content:req.body
         }
         res.json(json);
     },

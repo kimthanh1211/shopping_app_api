@@ -11,39 +11,29 @@ module.exports ={
     registerAccount:(req,res)=>{
         var json = {
             message:"success",
-            data:req.params,
-            content:req.body
+            data:req.body
         }
         res.json(json);
     },
-    checkExitst: (req, res) => {
-        let findQuery = { name: { $regex: /Online/ } };
+    checkExistAccount: (req, res) => {
+        var reqData = req.body
         async function find() {
           try {
             // Connect the client to the server	(optional starting in v4.7)
             await client.connect();
             const collection = database.collection(collectionName);
             try {
-                const cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
-                let response=[];
-                await cursor.forEach(result => {
-                  //console.log(result._id.toString())
-                  //console.log(result);
-                  /*var json={
-                    statusCode:1,
-                    statusMessage:'success',
-                    data:result
-                  };
-                  response.push(json)*/
-                  //result.id=result._id.toString();
-                  //result['id'] = result['_id'];
-                  //delete result['_id'];
+                const result = await collection.aggregate([{
+                   $match: { "id": req.body.id }
+                },
+                {
+                   $count: "totalID"
+                }
+                ]);
 
-                  response.push(result);
-                });
                 var json = {
                     message:"success",
-                    data:response
+                    data:result.totalID
                 }
                 //res.json(response);
                 res.json(json);
@@ -58,7 +48,7 @@ module.exports ={
         find().catch(console.dir);
         //console.log(res)
     },
-    getInfoBytoken: (req, res) => {
+    getInfoByToken: (req, res) => {
         var ObjectId = mongodb.ObjectId;
         let idProduct= new ObjectId(req.params.productId);
         let findOneQuery = { _id: idProduct };

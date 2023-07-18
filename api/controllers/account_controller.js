@@ -35,12 +35,15 @@ module.exports ={
             else{
                 try {
                     //enscrypt md5 password
-                    let pass_md5 = data => crypto.createHash('md5').update(data).digest("hex")
-
+                    let pass_md5 = password => crypto.createHash('md5').update(password).digest("hex");
+                    //create token
+                    let ObjectId = new mongodb.ObjectId;
+                    let dataToken = id + ObjectId;
+                    let token =dataToken => crypto.createHash('md5').update(dataToken).digest("hex");
                     const findExist = await collection.count({"account_id": req.body.id});
                     if(findExist==0){
                         //Insert account
-                        let dataAccount ={account_id:id,password:pass_md5,date_created : Date(),token:""};
+                        let dataAccount ={account_id:id,password:pass_md5,date_created : Date(),token:token};
                         const insertResult = await collection.insertOne(dataAccount);
                         json.message="success",
                         json.data=insertResult

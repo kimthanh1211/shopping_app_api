@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static('public'));
 let routes = require('./api/routes') //importing route
-routes(app)
+routes(app);
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found'});
 })

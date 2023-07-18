@@ -4,7 +4,7 @@ const mongodb =require('mongodb');
 const client = require('./../db');
 
 const dbName = "shopping_app";
-const collectionName = "account";
+const collectionName = "accounts";
 const database = client.db(dbName);
 
 module.exports ={
@@ -24,7 +24,7 @@ module.exports ={
             const collection = database.collection(collectionName);
             try {
                 const result = await collection.aggregate([{
-                   $match: { "id": req.body.id }
+                   $match: { "account_id": req.body.id }
                 },
                 {
                    $count: "totalID"
@@ -33,7 +33,7 @@ module.exports ={
 
                 var json = {
                     message:"success",
-                    data:result.totalID
+                    data:result
                 }
                 //res.json(response);
                 res.json(json);

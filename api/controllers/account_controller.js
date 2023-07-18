@@ -9,12 +9,6 @@ const database = client.db(dbName);
 
 module.exports ={
     registerAccount:(req,res)=>{
-        var json = {
-            message:"success",
-            data:req.body
-        }
-        res.json(json);
-var reqData = req.body
         async function find() {
           try {
             // Connect the client to the server	(optional starting in v4.7)
@@ -50,12 +44,11 @@ var reqData = req.body
           }
         }
         find().catch(console.dir);
-
     },
     getInfoByToken: (req, res) => {
         var ObjectId = mongodb.ObjectId;
-        let idProduct= new ObjectId(req.params.productId);
-        let findOneQuery = { _id: idProduct };
+        let token= new ObjectId(req.params.token);
+        let findOneQuery = { token: token };
         async function find() {
           try {
             // Connect the client to the server	(optional starting in v4.7)
@@ -64,9 +57,9 @@ var reqData = req.body
             try {
                 let findOneResult = await collection.findOne(findOneQuery);
                     if (findOneResult === null) {
-                        console.log("Couldn't find any recipes that contain "+idProduct+" as an id.\n");
+                        console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
                     } else {
-                    console.log(`Found a recipe with "+idProduct+" as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                    console.log(`Found a recipe with "+token+" as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
                 }
                 res.json(findOneResult);
               } catch (err) {

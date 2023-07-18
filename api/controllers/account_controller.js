@@ -85,7 +85,7 @@ module.exports ={
         find().catch(console.dir);
     },
     getAccountByToken: (req, res) => {
-        let token= req.params.token;
+        let token= req.body.token;
         let findOneQuery = { token: token };
         async function find() {
           try {

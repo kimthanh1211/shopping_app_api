@@ -23,17 +23,11 @@ module.exports ={
             await client.connect();
             const collection = database.collection(collectionName);
             try {
-                const result = await collection.aggregate([{
-                   $match: { "account_id": req.body.id }
-                },
-                {
-                   $count: "totalID"
-                }
-                ]);
+                const findExist = await collection.count({"account_id": req.body.id});
 
                 var json = {
                     message:"success",
-                    data:result
+                    data:{totalAccount: findExist}
                 }
                 //res.json(response);
                 res.json(json);

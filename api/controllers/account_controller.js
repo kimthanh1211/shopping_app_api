@@ -22,8 +22,13 @@ module.exports ={
             };
             let id = req.body.id
             let password=req.body.password
-
-            if(id.length <6 || id.length >24){
+            if(id == undefined || id == null || id ==""){
+                json.message = "Tên đăng nhập không được bỏ trống";
+            }
+            else if(password == undefined || password == null || password ==""){
+                json.message = "Mật khẩu không được bỏ trống";
+            }
+            else if(id.length <6 || id.length >24){
                 json.message = "Tên đăng nhập phải từ 6-24 ký tự";
             }
             else if(containsSpecialChars(id)){

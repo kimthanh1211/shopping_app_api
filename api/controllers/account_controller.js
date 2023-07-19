@@ -12,7 +12,6 @@ const database = client.db(dbName);
 module.exports ={
     registerAccount:(req,res)=>{
         async function find() {
-          try {
             let json = {
                 message:"",
                 data: null
@@ -85,7 +84,6 @@ module.exports ={
                 }
             }
             res.json(json);
-          }
         }
         find().catch(console.dir);
     },
@@ -107,7 +105,6 @@ module.exports ={
               json.message = "Email sai định dạng";
            }
            else{
-              try {
                   // Connect the client to the server	(optional starting in v4.7)
                   await client.connect();
                   const collection = database.collection(collectionName);
@@ -128,7 +125,7 @@ module.exports ={
                       // Ensures that the client will close when you finish/error
                       await client.close();
                   }
-              }
+
            }
            res.json(json);
         }
@@ -139,11 +136,10 @@ module.exports ={
             let token= req.body.token;
             let findOneQuery = { token: token };
             async function find() {
-              try {
+            try {
                 // Connect the client to the server	(optional starting in v4.7)
                 await client.connect();
                 const collection = database.collection(collectionName);
-                try {
                     let findOneResult = await collection.findOne(findOneQuery);
                     if (findOneResult === null) {
                         console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
@@ -157,12 +153,11 @@ module.exports ={
                             message:"success",
                             data: findOneResult
                         });
-                    }
-
+                  }
                   } catch (err) {
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
                   }
-              } finally {
+              finally {
                 // Ensures that the client will close when you finish/error
                 await client.close();
               }

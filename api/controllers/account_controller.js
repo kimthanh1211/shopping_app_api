@@ -109,7 +109,7 @@ module.exports ={
                let findOneQuery = { email: email,password:encryption.encryptMd5(password) };
               //console.log(res)
               try {
-              // Connect the client to the server	(optional starting in v4.7)
+                  // Connect the client to the server	(optional starting in v4.7)
                   await client.connect();
                   const collection = database.collection(collectionName);
                   try {
@@ -130,6 +130,7 @@ module.exports ={
                   } catch (err) {
                         console.error(`Something went wrong trying to find the documents: ${err}\n`);
                  }
+                 res.json(json);
               } finally {
                   // Ensures that the client will close when you finish/error
                   await client.close();

@@ -13,9 +13,6 @@ module.exports ={
     registerAccount:(req,res)=>{
         async function find() {
           try {
-            // Connect the client to the server	(optional starting in v4.7)
-            await client.connect();
-            const collection = database.collection(collectionName);
             let json = {
                 message:"",
                 data: null
@@ -51,6 +48,9 @@ module.exports ={
             }
             else{
                 try {
+                    // Connect the client to the server	(optional starting in v4.7)
+                    await client.connect();
+                    const collection = database.collection(collectionName);
                     //create token
                     let token = new mongodb.ObjectId().toString();
                     const findExist = await collection.count({"account_id": req.body.id});
@@ -80,11 +80,12 @@ module.exports ={
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
                 }
             }
-            res.json(json);
+
           } finally {
             // Ensures that the client will close when you finish/error
             await client.close();
           }
+          res.json(json);
         }
         find().catch(console.dir);
     },
@@ -106,32 +107,30 @@ module.exports ={
               json.message = "Email sai định dạng";
            }
            else{
-               let findOneQuery = { email: email,password:encryption.encryptMd5(password) };
-              //console.log(res)
               try {
                   // Connect the client to the server	(optional starting in v4.7)
                   await client.connect();
                   const collection = database.collection(collectionName);
                   try {
-                      let findOneResult = await collection.findOne(findOneQuery);
+                      let findQuery = { email: email,password:encryption.encryptMd5(password) };
+                      let findOneResult = await collection.findOne(findQuery);
                       if (findOneResult === null) {
-                      console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
-                      json.message:"Không tìm thấy tài khoản";
+                          json.message:"Không tìm thấy tài khoản";
                       } else {
-                          console.log(`Found a recipe with ${token} as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
                           json.message:"success";
                           json.data: findOneResult;
                       }
                   } catch (err) {
+                        json.message:"error" + err;
                         console.error(`Something went wrong trying to find the documents: ${err}\n`);
                  }
-                 res.json(json);
+
               } finally {
                   // Ensures that the client will close when you finish/error
                   await client.close();
               }
            }
-
+           res.json(json);
         }
         find().catch(console.dir);
     },

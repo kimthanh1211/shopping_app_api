@@ -116,16 +116,11 @@ module.exports ={
                       let findOneResult = await collection.findOne(findOneQuery);
                       if (findOneResult === null) {
                       console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
-                      res.json({
-                          message:"Không tìm thấy tài khoản",
-                          data: null
-                      });
+                      res.message:"Không tìm thấy tài khoản";
                       } else {
                           console.log(`Found a recipe with ${token} as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
-                          res.json({
-                             message:"success",
-                             data: findOneResult
-                          });
+                          res.json.message:"success";
+                          res.data: findOneResult;
                       }
                   } catch (err) {
                         console.error(`Something went wrong trying to find the documents: ${err}\n`);

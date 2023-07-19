@@ -52,7 +52,7 @@ module.exports ={
                     const collection = database.collection(collectionName);
                     //create token
                     let token = new mongodb.ObjectId().toString();
-                    const findExist = await collection.count({"account_id": req.body.id});
+                    const findExist = await collection.count({"email": email});
                     if(findExist==0){
                         //Insert account
                         let dataAccount ={
@@ -109,14 +109,21 @@ module.exports ={
                   await client.connect();
                   const collection = database.collection(collectionName);
                   try {
-                      let findOneQuery = { email: email };
-                      let findOneResult = await collection.findOne(findOneQuery);
-                      if (findOneResult === null) {
-                          json.message="Không tìm thấy tài khoản";
-                      } else {
+                      let findOneQuery = { email: email,password: encryption.encryptMd5(password)};
+                      let findExist = await collection.count({"email": email});
+                      if(findExist==0){
+                        json.message="Không tìm thấy tài khoản";
+                      }else{
+                        let findOneResult = await collection.findOne(findOneQuery);
+                        if (findOneResult === null) {
+                            json.message="Email hoặc mật khẩu không chính xác";
+                        } else {
                           json.message="success";
                           json.data= findOneResult;
+                        }
                       }
+
+
                   } catch (err) {
                       json.message="error" + err;
                       console.error(`Something went wrong trying to find the documents: ${err}\n`);

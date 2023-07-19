@@ -13,7 +13,7 @@ module.exports = function(app){
 
     //begin router account
     app.post('/account/register',accountCtrl.registerAccount);
-    app.post('/account/login',accountCtrl.loginAccount);
+    //app.post('/account/login',accountCtrl.loginAccount);
     app.post('/account/get_account_by_token',accountCtrl.getAccountByToken);
     //end router account
 

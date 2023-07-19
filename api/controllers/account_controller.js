@@ -13,6 +13,7 @@ module.exports ={
     registerAccount:(req,res)=>{
         async function find() {
           try {
+
             let json = {
                 message:"",
                 data: null
@@ -112,16 +113,16 @@ module.exports ={
                   await client.connect();
                   const collection = database.collection(collectionName);
                   try {
-                      let findQuery = { email: email,password:encryption.encryptMd5(password) };
-                      let findOneResult = await collection.findOne(findQuery);
+                      let findOneQuery = { email: email };
+                      let findOneResult = await collection.findOne(findOneQuery);
                       if (findOneResult === null) {
-                          json.message:"Không tìm thấy tài khoản";
+                          json.message="Không tìm thấy tài khoản";
                       } else {
-                          json.message:"success";
-                          json.data: findOneResult;
+                          json.message="success";
+                          json.data= findOneResult;
                       }
                   } catch (err) {
-                        json.message:"error" + err;
+                        json.message="error" + err;
                         console.error(`Something went wrong trying to find the documents: ${err}\n`);
                  }
 
@@ -134,6 +135,7 @@ module.exports ={
         }
         find().catch(console.dir);
     },
+
     getAccountByToken: (req, res) => {
             let token= req.body.token;
             let findOneQuery = { token: token };

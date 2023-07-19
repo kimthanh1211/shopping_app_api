@@ -65,8 +65,11 @@ module.exports ={
                             ,date_created : Date()
                             ,token:encryption.encryptMd5(token)};
                         const insertResult = await collection.insertOne(dataAccount);
-                        json.message="success",
-                        json.data=insertResult
+                        if(insertResult.acknowledged && insertResult.insertedId !==null){
+                            json.message="success";
+                            let accountData = await collection.findOne({token : new mongodb.ObjectId(insertResult.insertedId)});
+                            json.data=accountData;
+                        }else json.message="Tạo tài khoản thất bại";
                     }
                     else{
                         json.message="Email đăng ký đã tồn tại";
@@ -84,7 +87,7 @@ module.exports ={
         }
         find().catch(console.dir);
     },
-    getAccountByToken: (req, res) => {
+    loginAccount: (req, res) => {
         let token= req.body.token;
         let findOneQuery = { token: token };
         async function find() {
@@ -119,6 +122,41 @@ module.exports ={
         find().catch(console.dir);
         //console.log(res)
     },
+    getAccountByToken: (req, res) => {
+            let token= req.body.token;
+            let findOneQuery = { token: token };
+            async function find() {
+              try {
+                // Connect the client to the server	(optional starting in v4.7)
+                await client.connect();
+                const collection = database.collection(collectionName);
+                try {
+                    let findOneResult = await collection.findOne(findOneQuery);
+                    if (findOneResult === null) {
+                        console.log("Couldn't find any recipes that contain "+token+" as an id.\n");
+                        res.json({
+                            message:"Không tìm thấy tài khoản",
+                            data: null
+                        });
+                    } else {
+                        console.log(`Found a recipe with ${token} as an ingredient:\n${JSON.stringify(findOneResult)}\n`);
+                        res.json({
+                            message:"success",
+                            data: findOneResult
+                        });
+                    }
+
+                  } catch (err) {
+                    console.error(`Something went wrong trying to find the documents: ${err}\n`);
+                  }
+              } finally {
+                // Ensures that the client will close when you finish/error
+                await client.close();
+              }
+            }
+            find().catch(console.dir);
+            //console.log(res)
+        },
 }
 
 

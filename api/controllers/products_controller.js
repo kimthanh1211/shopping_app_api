@@ -11,11 +11,12 @@ module.exports ={
     get: (req, res) => {
         let findQuery = { name: { $regex: /Online/ } };
         async function find() {
-          try {
-            // Connect the client to the server	(optional starting in v4.7)
-            await client.connect();
-            const collection = database.collection(collectionName);
+
             try {
+                // Connect the client to the server	(optional starting in v4.7)
+                await client.connect();
+                const collection = database.collection(collectionName);
+
                 const cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
                 let response=[];
                 await cursor.forEach(result => {
@@ -42,10 +43,11 @@ module.exports ={
               } catch (err) {
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
-          } finally {
-            // Ensures that the client will close when you finish/error
-            await client.close();
-          }
+              finally {
+                   // Ensures that the client will close when you finish/error
+                   await client.close();
+              }
+
         }
         find().catch(console.dir);
         //console.log(res)
@@ -55,11 +57,10 @@ module.exports ={
         let idProduct= new ObjectId(req.params.productId);
         let findOneQuery = { _id: idProduct };
         async function find() {
-          try {
-            // Connect the client to the server	(optional starting in v4.7)
-            await client.connect();
-            const collection = database.collection(collectionName);
             try {
+                // Connect the client to the server	(optional starting in v4.7)
+                await client.connect();
+                const collection = database.collection(collectionName);
                 let findOneResult = await collection.findOne(findOneQuery);
                 if (findOneResult === null) {
                     console.log("Couldn't find any recipes that contain "+idProduct+" as an id.\n");
@@ -78,10 +79,11 @@ module.exports ={
               } catch (err) {
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
-          } finally {
-            // Ensures that the client will close when you finish/error
-            await client.close();
-          }
+              finally {
+                  // Ensures that the client will close when you finish/error
+                  await client.close();
+              }
+
         }
         find().catch(console.dir);
         //console.log(res)

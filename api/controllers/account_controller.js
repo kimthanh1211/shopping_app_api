@@ -154,9 +154,9 @@ module.exports ={
                             data: findOneResult
                         });
                   }
-                  } catch (err) {
+              } catch (err) {
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
-                  }
+              }
               finally {
                 // Ensures that the client will close when you finish/error
                 await client.close();

@@ -67,7 +67,7 @@ module.exports ={
                         const insertResult = await collection.insertOne(dataAccount);
                         if(insertResult.acknowledged && insertResult.insertedId !==null){
                             json.message="success";
-                            let accountData = await collection.findOne({_id : mongodb.ObjectId(insertResult.insertedId)});
+                            let accountData = await collection.findOne({_id : insertResult.insertedId});
                             json.data=accountData;
 
                         }else json.message="Tạo tài khoản thất bại";

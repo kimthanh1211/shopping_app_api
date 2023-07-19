@@ -13,7 +13,6 @@ module.exports ={
     registerAccount:(req,res)=>{
         async function find() {
           try {
-
             let json = {
                 message:"",
                 data: null
@@ -80,13 +79,13 @@ module.exports ={
                 } catch (err) {
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
                 }
+                finally {
+                    // Ensures that the client will close when you finish/error
+                    await client.close();
+                }
             }
-
-          } finally {
-            // Ensures that the client will close when you finish/error
-            await client.close();
+            res.json(json);
           }
-          res.json(json);
         }
         find().catch(console.dir);
     },
@@ -122,13 +121,13 @@ module.exports ={
                           json.data= findOneResult;
                       }
                   } catch (err) {
-                        json.message="error" + err;
-                        console.error(`Something went wrong trying to find the documents: ${err}\n`);
-                 }
-
-              } finally {
-                  // Ensures that the client will close when you finish/error
-                  await client.close();
+                      json.message="error" + err;
+                      console.error(`Something went wrong trying to find the documents: ${err}\n`);
+                  }
+                  finally {
+                      // Ensures that the client will close when you finish/error
+                      await client.close();
+                  }
               }
            }
            res.json(json);

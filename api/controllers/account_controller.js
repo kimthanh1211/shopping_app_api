@@ -69,6 +69,7 @@ module.exports ={
                             json.message="success";
                             let accountData = await collection.findOne({token : new mongodb.ObjectId(insertResult.insertedId)});
                             json.data=accountData;
+                            json.content= new mongodb.ObjectId(insertResult.insertedId);
                         }else json.message="Tạo tài khoản thất bại";
                     }
                     else{

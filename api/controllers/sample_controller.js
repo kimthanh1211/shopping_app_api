@@ -1,10 +1,7 @@
 'use strict';
-
 const encryption = require('./../../lib/encryption');
-
 const mongodb =require('mongodb');
 const client = require('./../db');
-
 const dbName = "";
 const collectionName = "";
 const database = client.db(dbName);

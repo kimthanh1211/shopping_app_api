@@ -61,7 +61,8 @@ module.exports ={
                             ,name:name
                             ,phone:phone
                             ,address:address
-                            ,date_created : Date()
+                            ,date_created : Date(),
+                            ,user_group:1
                             ,token:encryption.encryptMd5(token)};
                         const insertResult = await collection.insertOne(dataAccount);
                         if(insertResult.acknowledged && insertResult.insertedId !==null){

@@ -11,12 +11,10 @@ module.exports ={
     get: (req, res) => {
         let findQuery = { name: { $regex: /Online/ } };
         async function find() {
-
             try {
                 // Connect the client to the server	(optional starting in v4.7)
                 await client.connect();
                 const collection = database.collection(collectionName);
-
                 const cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
                 let response=[];
                 await cursor.forEach(result => {
@@ -41,6 +39,10 @@ module.exports ={
                 //res.json(response);
                 res.json(json);
               } catch (err) {
+                res.json({
+                    message:"error" + err,
+                    data:null
+                });
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
               finally {
@@ -77,6 +79,10 @@ module.exports ={
                 }
 
               } catch (err) {
+                res.json({
+                    message:"error" + err,
+                    data:null
+                });
                 console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
               finally {

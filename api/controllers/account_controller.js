@@ -76,6 +76,7 @@ module.exports ={
                     }
 
                 } catch (err) {
+                    json.message="error" + err;
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
                 }
                 finally {
@@ -112,7 +113,7 @@ module.exports ={
                       let findOneQuery = { email: email,password: encryption.encryptMd5(password)};
                       let findExist = await collection.count({"email": email});
                       if(findExist==0){
-                        json.message="Không tìm thấy tài khoản";
+                        json.message="Email không tồn tại";
                       }else{
                         let findOneResult = await collection.findOne(findOneQuery);
                         if (findOneResult === null) {
@@ -162,6 +163,10 @@ module.exports ={
                         });
                   }
               } catch (err) {
+                    res.json({
+                         message:"err" + err,
+                         data: null
+                    });
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);
               }
               finally {

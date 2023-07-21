@@ -6,9 +6,6 @@ module.exports = function(app){
     //begin router product
     app.get('/products',productCtrl.get);
     app.get('/product/:productId',productCtrl.detail);
-    app.get('/cart',function(req,res){
-        res.status(200).send({id: 1,price:10000,products:[]});
-    });
     //end router product
 
     //begin router account
@@ -16,6 +13,13 @@ module.exports = function(app){
     app.post('/account/login',accountCtrl.loginAccount);
     app.post('/account/get_account_by_token',accountCtrl.getAccountByToken);
     //end router account
+
+    //begin router cart - orders
+    app.post('/cart');
+    app.post('/cart/update');
+    app.post('/cart/confirm');
+    app.post('/order/history');
+    //end router cart - orders
 
     //app.router('/products')
         //.get(productCtrl.get)

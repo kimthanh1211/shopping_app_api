@@ -89,7 +89,7 @@ module.exports ={
                     data: null
                 };
                 let accountID  = new mongodb.ObjectId(req.body.account_id);
-                if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
+                if(accountID == undefined || accountID == null || accountID ==""){
                     json.message="Data null";
                 }
                 else{

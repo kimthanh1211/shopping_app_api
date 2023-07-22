@@ -131,10 +131,7 @@ module.exports ={
                 data: null
             };
             let accountID  = new mongodb.ObjectId(req.params.account_id);
-            if(dataCheck1 == undefined || dataCheck1 == null || dataCheck1 ==""){
-                json.message="Data null";
-            }
-            if(dataCheck2 == undefined || dataCheck2 == null || dataCheck2 ==""){
+            if(accountID == undefined || accountID == null || accountID ==""){
                 json.message="Data null";
             }
             else{
@@ -166,10 +163,7 @@ module.exports ={
                 data: null
             };
             let accountID  = new mongodb.ObjectId(req.params.account_id);
-            if(dataCheck1 == undefined || dataCheck1 == null || dataCheck1 ==""){
-                json.message="Data null";
-            }
-            if(dataCheck2 == undefined || dataCheck2 == null || dataCheck2 ==""){
+            if(accountID == undefined || accountID == null || accountID ==""){
                 json.message="Data null";
             }
             else{

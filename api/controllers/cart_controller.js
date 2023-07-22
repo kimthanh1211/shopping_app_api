@@ -100,7 +100,7 @@ module.exports ={
                         {
                             //Insert data
                             let getCart = await collection.findOne({account_id:accountID});
-                            let insertResult = await collection.insertOne({
+                            let insertResult = await database.collection('orders').insertOne({
                                 products:getCart.products,
                                 status:1,
                                 date_created:Date(),
@@ -116,7 +116,7 @@ module.exports ={
                             }else json.message="Insert error";
                         }
                     catch (err) {
-                        json.message="err" + err;
+                        json.message="err: " + err;
                     }
                     finally {
                         // Ensures that the client will close when you finish/error

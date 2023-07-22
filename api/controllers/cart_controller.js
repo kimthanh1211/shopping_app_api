@@ -97,7 +97,7 @@ module.exports ={
                         // Connect the client to the server	(optional starting in v4.7)
                         await client.connect();
                         let collection = database.collection(collectionName);
-                        {
+
                             //Insert data
                             let getCart = await collection.findOne({account_id:accountID});
                             let insertResult = await database.collection('orders').insertOne({
@@ -114,7 +114,7 @@ module.exports ={
                                 let accountData = await collection.findOne({_id : insertResult.insertedId});
                                 json.data=accountData;
                             }else json.message="Insert error";
-                        }
+                    }
                     catch (err) {
                         json.message="err: " + err;
                     }

@@ -13,8 +13,8 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let accountID  = new mongodb.ObjectId(req.body.account_id);
-            let productID = new mongodb.ObjectId(req.body.product_id);
+            let accountID  = new mongodb.ObjectId(req.body.account_id)
+                ,productID = new mongodb.ObjectId(req.body.product_id);
             if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
                 json.message="Data null";
             }
@@ -27,10 +27,9 @@ module.exports ={
                     let findOneQuery = { account_id: accountID };
                     let getCart = await collection.findOne(findOneQuery);
                     let listProduct = [],
-                        totalPrice = 0;
+                        totalPrice = 0,
+                        productIsExist = false;
                     if(getCart.products != undefined && getCart.products != null && getCart.products.length> 0){
-                        let productIsExist = false;
-
                         await getCart.products.forEach(product => {
                             if(product._id ==productID ){
                                 product.quantity +=1;
@@ -39,12 +38,14 @@ module.exports ={
                             totalPrice += product.price * product.quantity;
                             listProduct.push(product);
                         });
-                        if(!productIsExist){
-                            let getProductNew = await database.collection('products').findOne({_id: productID});
-                            if(getProductNew.acknowledged && getProductNew.insertedId !==null){
-                                listProduct.push(getProductNew);
-                            }
-                        }
+
+                    }
+                    if(!productIsExist){
+                         let getProductNew = await database.collection('products').findOne({_id: productID});
+                         if(getProductNew.acknowledged && getProductNew.insertedId !==null){
+                             listProduct.push(getProductNew);
+                             totalPrice+=getProductNew.price;
+                         }
                     }
                     listProduct = getCart.products;
 

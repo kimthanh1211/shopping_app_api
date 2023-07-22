@@ -47,7 +47,6 @@ module.exports ={
                              totalPrice+=getProductNew.price;
                          }
                     }
-                    listProduct = getCart.products;
 
                     let updateDoc = { $set: { products: listProduct,price:totalPrice } };
                     let updateOptions = {

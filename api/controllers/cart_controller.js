@@ -107,7 +107,7 @@ module.exports ={
                                 account_id:getCart.account_id,
                                 account_name:getCart.account_name
                             });
-                            }
+
                             //check insert success
                             if(insertResult.acknowledged && insertResult.insertedId !==null){
                                 json.message="success";

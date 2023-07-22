@@ -96,11 +96,12 @@ module.exports ={
                     try {
                         // Connect the client to the server	(optional starting in v4.7)
                         await client.connect();
-                        let collection = database.collection(collectionName);
+                        let collection = database.collection(collectionName),
+                            collectionOrders = database.collection('orders');
 
                             //Insert data
                             let getCart = await collection.findOne({account_id:accountID});
-                            let insertResult = await database.collection('orders').insertOne({
+                            let insertResult = await collectionOrders.insertOne({
                                 products:getCart.products,
                                 status:1,
                                 date_created:Date(),
@@ -111,7 +112,7 @@ module.exports ={
                             //check insert success
                             if(insertResult.acknowledged && insertResult.insertedId !==null){
                                 json.message="success";
-                                let accountData = await collection.findOne({_id : insertResult.insertedId});
+                                let accountData = await collectionOrders.findOne({_id : insertResult.insertedId});
                                 json.data=accountData;
                             }else json.message="Insert error";
                     }

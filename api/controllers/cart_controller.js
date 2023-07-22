@@ -15,7 +15,10 @@ module.exports ={
             };
             let accountID  = new mongodb.ObjectId(req.body.account_id)
                 ,productID = new mongodb.ObjectId(req.body.product_id);
-            if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
+            if(accountID == undefined || accountID == null || accountID ==""){
+                json.message="Data null";
+            }
+            else if(productID == undefined || productID == null || productID ==""){
                 json.message="Data null";
             }
             else{
@@ -26,6 +29,9 @@ module.exports ={
 
                     let findOneQuery = { account_id: accountID };
                     let getCart = await collection.findOne(findOneQuery);
+
+                    json.data = getCart;
+
                     let listProduct = [],
                         totalPrice = 0,
                         productIsExist = false;
@@ -47,7 +53,7 @@ module.exports ={
                              totalPrice+=getProductNew.price;
                          }
                     }
-
+                    /*
                     let updateDoc = { $set: { products: listProduct,price:totalPrice } };
                     let updateOptions = {
                         // return new data update
@@ -63,6 +69,7 @@ module.exports ={
                     );
                     json.message="success";
                     json.data=updateResult;
+                    */
                 } catch (err) {
                     json.message="err" + err;
                 }

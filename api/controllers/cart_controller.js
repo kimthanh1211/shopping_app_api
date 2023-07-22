@@ -15,7 +15,6 @@ module.exports ={
             };
             let accountID  = new mongodb.ObjectId(req.params.account_id);
             let productID = new mongodb.ObjectId(req.params.product_id);
-
             if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
                 json.message="Data null";
             }
@@ -31,6 +30,7 @@ module.exports ={
                         totalPrice = 0;
                     if(getCart.products != undefined && getCart.products != null && getCart.products.length> 0){
                         let productIsExist = false;
+
                         await getCart.products.forEach(product => {
                             if(product._id ==productID ){
                                 product.quantity +=1;
@@ -38,15 +38,15 @@ module.exports ={
                             }
                             totalPrice += product.price * product.quantity;
                             listProduct.push(product);
-                            if(!productIsExist){
-                                let getProductNew = await database.collection('products').findOne({_id: productID});
-                                if(getProductNew.acknowledged && getProductNew.insertedId !==null){
-                                    listProduct.push(getProductNew);
-                                }
+                        });
+                        if(!productIsExist){
+                            let getProductNew = await database.collection('products').findOne({_id: productID});
+                            if(getProductNew.acknowledged && getProductNew.insertedId !==null){
+                                listProduct.push(getProductNew);
                             }
                         }
-                        listProduct = getCart.products;
                     }
+                    listProduct = getCart.products;
 
                     let updateDoc = { $set: { products: listProduct,price:totalPrice } };
                     let updateOptions = {
@@ -75,9 +75,11 @@ module.exports ={
         }
         find().catch(console.dir);
     },
+
+
     ///fnPost1 insert data
     confirmCart:(req,res)=>{
-            async function find() {
+        async function find() {
                 let json = {
                     message:"",
                     data: null
@@ -98,7 +100,7 @@ module.exports ={
                                 products:getCart.products,
                                 status:1,
                                 date_created:Date(),
-                                account_id:getCart.account_id
+                                account_id:getCart.account_id,
                                 account_name:getCart.account_name
                             });
                             }
@@ -109,7 +111,7 @@ module.exports ={
                                 json.data=accountData;
                             }else json.message="Insert error";
                         }
-                    } catch (err) {
+                    catch (err) {
                         json.message="err" + err;
                     }
                     finally {
@@ -119,8 +121,8 @@ module.exports ={
                 }
                 res.json(json);
             }
-            find().catch(console.dir);
-        },
+        find().catch(console.dir);
+    },
     ///fn get cart data
     getCart:(req,res)=>{
         async function find() {
@@ -142,14 +144,10 @@ module.exports ={
                     let collection = database.collection(collectionName);
                     //begin find exist option
                     let findData = await collection.findOne({account_id:accountID});// 1:asc, -1:desc
-                    var json = {
-                        message:"success",
-                        data:findData
-                    }
-                    res.json(json);
+                    json.message ="success",
+                    json.data=findData;
                 } catch (err) {
                     json.message="err" + err;
-                    console.error(`Something went wrong trying to find the documents: ${err}\n`);
                 }
                 finally {
                     // Ensures that the client will close when you finish/error
@@ -185,14 +183,10 @@ module.exports ={
                     await cursor.forEach(result => {
                         response.push(result);
                     });
-                    var json = {
-                        message:"success",
-                        data:response
-                    }
-                    res.json(json);
+                    json.message = "success"
+                    json.data=response
                 } catch (err) {
                     json.message="err" + err;
-                    console.error(`Something went wrong trying to find the documents: ${err}\n`);
                 }
                 finally {
                     // Ensures that the client will close when you finish/error

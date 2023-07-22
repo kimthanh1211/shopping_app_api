@@ -114,6 +114,12 @@ module.exports ={
                                 json.message="success";
                                 let accountData = await collectionOrders.findOne({_id : insertResult.insertedId});
                                 json.data=accountData;
+
+                                //clear cart
+                                let updateCart = await collection.findOneAndUpdate(
+                                    {account_id:accountID},
+                                    { $set: { products: null,price:0 } }
+                                );
                             }else json.message="Insert error";
                     }
                     catch (err) {

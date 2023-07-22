@@ -13,7 +13,9 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let dataCheck =req.body.data_check;
+            let accountID  = new mongodb.ObjectId(req.params.account_id);
+            let productID = new mongodb.ObjectId(req.params.product_id);
+
             if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
                 json.message="Data null";
             }
@@ -21,18 +23,40 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
 
-                    const findOneQuery = { data_find: {$regex:/content/} };
-                    const updateDoc = { $set: { data_update: "content" } };
-                    const updateOptions = {
+                    let findOneQuery = { account_id: accountID };
+                    let getCart = await collection.findOne(findOneQuery);
+                    let listProduct = [],
+                        totalPrice = 0;
+                    if(getCart.products != undefined && getCart.products != null && getCart.products.length> 0){
+                        let productIsExist = false;
+                        await getCart.products.forEach(product => {
+                            if(product._id ==productID ){
+                                product.quantity +=1;
+                                productIsExist = true;
+                            }
+                            totalPrice += product.price * product.quantity;
+                            listProduct.push(product);
+                            if(!productIsExist){
+                                let getProductNew = await database.collection('products').findOne({_id: productID});
+                                if(getProductNew.acknowledged && getProductNew.insertedId !==null){
+                                    listProduct.push(getProductNew);
+                                }
+                            }
+                        }
+                        listProduct = getCart.products;
+                    }
+
+                    let updateDoc = { $set: { products: listProduct,price:totalPrice } };
+                    let updateOptions = {
                         // return new data update
                         returnOriginal: false
                         ,returnDocument : "after"
                         // return new data update
-                        upsert: true, // insert new record when not exist
+                        //upsert: true, // insert new record when not exist
                     };
-                    const updateResult = await collection.findOneAndUpdate(
+                    let updateResult = await collection.findOneAndUpdate(
                         findOneQuery,
                         updateDoc,
                         updateOptions,
@@ -51,6 +75,52 @@ module.exports ={
         }
         find().catch(console.dir);
     },
+    ///fnPost1 insert data
+    confirmCart:(req,res)=>{
+            async function find() {
+                let json = {
+                    message:"",
+                    data: null
+                };
+                let accountID  = new mongodb.ObjectId(req.params.account_id);
+                if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
+                    json.message="Data null";
+                }
+                else{
+                    try {
+                        // Connect the client to the server	(optional starting in v4.7)
+                        await client.connect();
+                        let collection = database.collection(collectionName);
+                        {
+                            //Insert data
+                            let getCart = await collection.findOne({account_id:accountID});
+                            let insertResult = await collection.insertOne({
+                                products:getCart.products,
+                                status:1,
+                                date_created:Date(),
+                                account_id:getCart.account_id
+                                account_name:getCart.account_name
+                            });
+                            }
+                            //check insert success
+                            if(insertResult.acknowledged && insertResult.insertedId !==null){
+                                json.message="success";
+                                let accountData = await collection.findOne({_id : insertResult.insertedId});
+                                json.data=accountData;
+                            }else json.message="Insert error";
+                        }
+                    } catch (err) {
+                        json.message="err" + err;
+                    }
+                    finally {
+                        // Ensures that the client will close when you finish/error
+                        await client.close();
+                    }
+                }
+                res.json(json);
+            }
+            find().catch(console.dir);
+        },
     ///fnPost3 find data
     getCart:(req,res)=>{
         async function find() {
@@ -58,8 +128,7 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let cart_id =req.body.data_check;
-            let dataCheck2 =req.body.data_check;
+            let accountID  = new mongodb.ObjectId(req.params.account_id);
             if(dataCheck1 == undefined || dataCheck1 == null || dataCheck1 ==""){
                 json.message="Data null";
             }
@@ -70,23 +139,18 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
                     //begin find exist option
-                    let findExist = await collection.count({"dataCheck1": dataCheck1});
-                    if(findExist==0){
-                        json.message="dataCheck1 not found";
-                    }else
-                    //end find exist option
-                    {
-                        let findOneQuery = {"dataCheck1": dataCheck1,"dataCheck2": dataCheck2};
-                        let findOneResult = await collection.findOne(findOneQuery);
-                        if (findOneResult === null) {
-                            json.message="Wrong dataCheck1 or dataCheck2";
-                        } else {
-                            json.message="success";
-                            json.data= findOneResult;
-                        }
+                    let cursor = await collection.find({account_id:accountID}).sort({ name: -1 });// 1:asc, -1:desc
+                    let response=[];
+                    await cursor.forEach(result => {
+                        response.push(result);
+                    });
+                    var json = {
+                        message:"success",
+                        data:response
                     }
+                    res.json(json);
                 } catch (err) {
                     json.message="err" + err;
                     console.error(`Something went wrong trying to find the documents: ${err}\n`);

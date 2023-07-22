@@ -14,8 +14,8 @@ module.exports ={
             try {
                 // Connect the client to the server	(optional starting in v4.7)
                 await client.connect();
-                const collection = database.collection(collectionName);
-                const cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
+                let collection = database.collection(collectionName);
+                let cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
                 let response=[];
                 await cursor.forEach(result => {
                   //console.log(result._id.toString())
@@ -55,14 +55,13 @@ module.exports ={
         //console.log(res)
     },
     detail: (req, res) => {
-        var ObjectId = mongodb.ObjectId;
-        let idProduct= new ObjectId(req.params.productId);
+        let idProduct= new mongodb.ObjectId(req.params.productId);
         let findOneQuery = { _id: idProduct };
         async function find() {
             try {
                 // Connect the client to the server	(optional starting in v4.7)
                 await client.connect();
-                const collection = database.collection(collectionName);
+                let collection = database.collection(collectionName);
                 let findOneResult = await collection.findOne(findOneQuery);
                 if (findOneResult === null) {
                     console.log("Couldn't find any recipes that contain "+idProduct+" as an id.\n");

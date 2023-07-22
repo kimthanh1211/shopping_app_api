@@ -64,12 +64,20 @@ module.exports ={
                             ,date_created : Date()
                             ,user_group:1
                             ,token:encryption.encryptMd5(token)};
-                        const insertResult = await collection.insertOne(dataAccount);
+                        let insertResult = await collection.insertOne(dataAccount);
                         if(insertResult.acknowledged && insertResult.insertedId !==null){
-                            json.message="success";
+
+                            //create cart map account_id
+                            let createCart = await database.collection("cart").insertOne({
+                                products : null,
+                                account_id : insertResult.insertedId,
+                                account_name:name,
+                                price:0
+                            });
+                            //end cart map account_id
                             let accountData = await collection.findOne({_id : insertResult.insertedId});
                             json.data=accountData;
-
+                            json.message="success";
                         }else json.message="Tạo tài khoản thất bại";
                     }
                     else{
@@ -109,7 +117,7 @@ module.exports ={
            else{
                   // Connect the client to the server	(optional starting in v4.7)
                   await client.connect();
-                  const collection = database.collection(collectionName);
+                  let collection = database.collection(collectionName);
                   try {
                       let findOneQuery = { email: email,password: encryption.encryptMd5(password)};
                       let findExist = await collection.count({"email": email});

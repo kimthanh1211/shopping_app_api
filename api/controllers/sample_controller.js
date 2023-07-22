@@ -23,15 +23,15 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
                     //begin option check exist
-                    const findExist = await collection.count({param1: ""});
+                    let findExist = await collection.count({param1: ""});
                     if(findExist==0)
                     //end  option check exist
                     {
                         //Insert data
                         let data ={param1:"",param2:""};
-                        const insertResult = await collection.insertOne(data);
+                        let insertResult = await collection.insertOne(data);
                         //check insert success
                         if(insertResult.acknowledged && insertResult.insertedId !==null){
                             json.message="success";
@@ -56,7 +56,7 @@ module.exports ={
             res.json(json);
         }
         find().catch(console.dir);
-    },///fnPost1 insert data
+    },
     ///fnPost1 update data
     fnPost2:(req,res)=>{
         async function find() {
@@ -72,18 +72,18 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
 
-                    const findOneQuery = { data_find: {$regex:/content/} };
-                    const updateDoc = { $set: { data_update: "content" } };
-                    const updateOptions = {
+                    let findOneQuery = { data_find: {$regex:/content/} };
+                    let updateDoc = { $set: { data_update: "content" } };
+                    let updateOptions = {
                         // return new data update
                         returnOriginal: false
                         ,returnDocument : "after"
                         // return new data update
                         upsert: true, // insert new record when not exist
                     };
-                    const updateResult = await collection.findOneAndUpdate(
+                    let updateResult = await collection.findOneAndUpdate(
                         findOneQuery,
                         updateDoc,
                         updateOptions,
@@ -121,7 +121,7 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
                     //begin find exist option
                     let findExist = await collection.count({"dataCheck1": dataCheck1});
                     if(findExist==0){
@@ -161,7 +161,7 @@ module.exports ={
             try {
                 // Connect the client to the server	(optional starting in v4.7)
                 await client.connect();
-                const collection = database.collection(collectionName);
+                let collection = database.collection(collectionName);
                 let findOneResult = await collection.findOne(findOneQuery);
                 if (findOneResult === null) {
                     res.json({
@@ -197,9 +197,9 @@ module.exports ={
                 try {
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
-                    const collection = database.collection(collectionName);
+                    let collection = database.collection(collectionName);
                     let findQuery = { data_check: { $regex: /content check/ } };
-                    const cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
+                    let cursor = await collection.find(findQuery).sort({ name: -1 });// 1:asc, -1:desc
                     let response=[];
                     //foreach to add response data
                     await cursor.forEach(result => {

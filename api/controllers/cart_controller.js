@@ -42,7 +42,7 @@ module.exports ={
                     }
                     if(!productIsExist){
                          let getProductNew = await database.collection('products').findOne({_id: productID});
-                         if(getProductNew.acknowledged && getProductNew.insertedId !==null){
+                         if(getProductNew !==null){
                              listProduct.push(getProductNew);
                              totalPrice+=getProductNew.price;
                          }

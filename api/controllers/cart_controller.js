@@ -103,6 +103,7 @@ module.exports ={
                             let getCart = await collection.findOne({account_id:accountID});
                             let insertResult = await collectionOrders.insertOne({
                                 products:getCart.products,
+                                price:getCart.price,
                                 status:1,
                                 date_created:Date(),
                                 account_id:getCart.account_id,

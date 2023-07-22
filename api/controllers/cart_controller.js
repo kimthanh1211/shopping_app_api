@@ -13,8 +13,8 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let accountID  = new mongodb.ObjectId(req.params.account_id);
-            let productID = new mongodb.ObjectId(req.params.product_id);
+            let accountID  = new mongodb.ObjectId(req.body.account_id);
+            let productID = new mongodb.ObjectId(req.body.product_id);
             if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
                 json.message="Data null";
             }
@@ -84,7 +84,7 @@ module.exports ={
                     message:"",
                     data: null
                 };
-                let accountID  = new mongodb.ObjectId(req.params.account_id);
+                let accountID  = new mongodb.ObjectId(req.body.account_id);
                 if(dataCheck == undefined || dataCheck == null || dataCheck ==""){
                     json.message="Data null";
                 }
@@ -130,7 +130,7 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let accountID  = new mongodb.ObjectId(req.params.account_id);
+            let accountID  = new mongodb.ObjectId(req.body.account_id);
             if(accountID == undefined || accountID == null || accountID ==""){
                 json.message="Data null";
             }
@@ -162,7 +162,7 @@ module.exports ={
                 message:"",
                 data: null
             };
-            let accountID  = new mongodb.ObjectId(req.params.account_id);
+            let accountID  = new mongodb.ObjectId(req.body.account_id);
             if(accountID == undefined || accountID == null || accountID ==""){
                 json.message="Data null";
             }

@@ -2,6 +2,7 @@
 module.exports = function(app){
     let productCtrl = require('./controllers/products_controller');
     let accountCtrl = require('./controllers/account_controller');
+    let cartCtrl = require('./controllers/cart_controller');
     //to do router
     //begin router product
     app.get('/products',productCtrl.get);
@@ -15,10 +16,11 @@ module.exports = function(app){
     //end router account
 
     //begin router cart - orders
-    app.post('/cart');
+    app.post('/cart',cartCtrl.getCart);
+    app.post('/cart/add',cartCtrl.addCart);
     app.post('/cart/update');
-    app.post('/cart/confirm');
-    app.post('/order/history');
+    app.post('/cart/confirm',cartCtrl.confirmCart);
+    app.post('/order/history',cartCtrl.getOrders);
     //end router cart - orders
 
     //app.router('/products')

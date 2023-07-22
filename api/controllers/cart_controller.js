@@ -121,7 +121,7 @@ module.exports ={
             }
             find().catch(console.dir);
         },
-    ///fnPost3 find data
+    ///fn get cart data
     getCart:(req,res)=>{
         async function find() {
             let json = {
@@ -140,6 +140,45 @@ module.exports ={
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
                     let collection = database.collection(collectionName);
+                    //begin find exist option
+                    let findData = await collection.findOne({account_id:accountID});// 1:asc, -1:desc
+                    var json = {
+                        message:"success",
+                        data:findData
+                    }
+                    res.json(json);
+                } catch (err) {
+                    json.message="err" + err;
+                    console.error(`Something went wrong trying to find the documents: ${err}\n`);
+                }
+                finally {
+                    // Ensures that the client will close when you finish/error
+                    await client.close();
+                }
+            }
+            res.json(json);
+        }
+        find().catch(console.dir);
+    },
+    ///fn get orders data
+    getOrders:(req,res)=>{
+        async function find() {
+            let json = {
+                message:"",
+                data: null
+            };
+            let accountID  = new mongodb.ObjectId(req.params.account_id);
+            if(dataCheck1 == undefined || dataCheck1 == null || dataCheck1 ==""){
+                json.message="Data null";
+            }
+            if(dataCheck2 == undefined || dataCheck2 == null || dataCheck2 ==""){
+                json.message="Data null";
+            }
+            else{
+                try {
+                    // Connect the client to the server	(optional starting in v4.7)
+                    await client.connect();
+                    let collection = database.collection('orders');
                     //begin find exist option
                     let cursor = await collection.find({account_id:accountID}).sort({ name: -1 });// 1:asc, -1:desc
                     let response=[];
@@ -164,5 +203,5 @@ module.exports ={
         }
         find().catch(console.dir);
     },
-    //end post data
+    //end get data
 }

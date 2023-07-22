@@ -34,7 +34,7 @@ module.exports ={
                         productIsExist = false;
                     if(getCart.products != undefined && getCart.products != null && getCart.products.length> 0){
                         await getCart.products.forEach(product => {
-                            if(product._id ==productID ){
+                            if(product._id.toString() ==productID.toString() ){
                                 product.quantity +=1;
                                 productIsExist = true;
                             }

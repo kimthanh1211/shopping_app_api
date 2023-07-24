@@ -101,6 +101,8 @@ module.exports ={
             }
             else{
                 try {
+                    let qty = parseInt(productQty);
+
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
                     let collection = database.collection(collectionName);
@@ -112,7 +114,7 @@ module.exports ={
                     if(getCart.products != undefined && getCart.products != null && getCart.products.length> 0){
                         await getCart.products.forEach(product => {
                             if(product._id.toString() ==productID.toString() ){
-                                product.quantity = productQty;
+                                product.quantity = qty;
                             }
                             totalPrice += product.price * product.quantity;
                             listProduct.push(product);

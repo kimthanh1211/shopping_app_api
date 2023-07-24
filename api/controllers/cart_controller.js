@@ -186,7 +186,7 @@ module.exports ={
 
                                 //clear cart
                                 let updateCart = await collection.findOneAndUpdate(
-                                    {account_id:accountID},
+                                    {_id:cartID},
                                     { $set: { products: null,price:0 } }
                                 );
                             }else json.message="Insert error";

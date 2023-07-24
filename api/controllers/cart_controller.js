@@ -101,7 +101,7 @@ module.exports ={
             }
             else{
                 try {
-                    let qty = parseInt(productQty);
+                    let qty = parseInt(productQty);//parse int
 
                     // Connect the client to the server	(optional starting in v4.7)
                     await client.connect();
@@ -156,8 +156,8 @@ module.exports ={
                     message:"",
                     data: null
                 };
-                let accountID  = new mongodb.ObjectId(req.body.account_id);
-                if(accountID == undefined || accountID == null || accountID ==""){
+                let cartID  = new mongodb.ObjectId(req.body.cart_id);
+                if(cartID == undefined || cartID == null || cartID ==""){
                     json.message="Data null";
                 }
                 else{
@@ -168,7 +168,7 @@ module.exports ={
                             collectionOrders = database.collection('orders');
 
                             //Insert data
-                            let getCart = await collection.findOne({account_id:accountID});
+                            let getCart = await collection.findOne({_id:cartID});
                             let insertResult = await collectionOrders.insertOne({
                                 products:getCart.products,
                                 price:getCart.price,

@@ -18,7 +18,7 @@ module.exports = function(app){
     //begin router cart - orders
     app.post('/cart',cartCtrl.getCart);
     app.post('/cart/add',cartCtrl.addCart);
-    app.post('/cart/update');
+    app.post('/cart/update',cartCtrl.updateCart);
     app.post('/cart/confirm',cartCtrl.confirmCart);
     app.post('/order/history',cartCtrl.getOrders);
     //end router cart - orders

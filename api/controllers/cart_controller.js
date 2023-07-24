@@ -89,11 +89,14 @@ module.exports ={
             };
             let cartID  = new mongodb.ObjectId(req.body.cart_id)
                 ,productID = new mongodb.ObjectId(req.body.product_id)
-                ,productQty = new mongodb.ObjectId(req.body.quantity);
-            if(accountID == undefined || accountID == null || accountID ==""){
+                ,productQty = req.body.quantity;
+            if(cartID == undefined || cartID == null || cartID ==""){
                 json.message="Data null";
             }
             else if(productID == undefined || productID == null || productID ==""){
+                json.message="Data null";
+            }
+            else if(productQty == undefined || productQty == null || productQty ==""){
                 json.message="Data null";
             }
             else{

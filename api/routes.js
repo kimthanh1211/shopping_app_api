@@ -3,6 +3,7 @@ module.exports = function(app){
     let productCtrl = require('./controllers/products_controller');
     let accountCtrl = require('./controllers/account_controller');
     let cartCtrl = require('./controllers/cart_controller');
+    let otpCtrl = require('./controllers/otp_controller');
     //to do router
     //begin router product
     app.get('/products',productCtrl.get);
@@ -32,5 +33,8 @@ module.exports = function(app){
         .put(productCtrl.update)
         .delete(productCtrl.detail);
     */
-
+    // otp telegram
+    app.router('/getotp/:phoneNumber&:chatIdTele')
+            .get(optCtrl.sendOtp)
+    */
 }

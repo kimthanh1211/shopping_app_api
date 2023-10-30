@@ -1,60 +1,51 @@
 'use strict';
-let express = require('express');
-let app= express();
+const https = require('https');
 
 module.exports ={
     //sendOtp
     sendOtp: (req, res) => {
         let TELEGRAM_BOT_TOKEN= '6330354817:AAFjWg0R3iyja8iet8h0qwSGmHS6jPlnrEA'
             ,telegramId=req.params.chatIdTele
-            ,message=req.params.phoneNumber;
-        app.get('https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + "/sendMessage?chat_id=" + telegramId + "&text=" + message + "&parse_mode=html", (req, res) => {
-          res.send('Hello World!')
-        })
+            ,message=req.params.phoneNumber
+            ,url_req_tlbot="https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage?chat_id=" + telegramId + "&text=" + message + "&parse_mode=html"
+        console.log('telegramId:'+ telegramId);
+        console.log('phoneNumber:'+ message);
+        https.get(url_req_tlbot, (resp) => {
+          let data = '';
 
-        app.listen(3000, () => {
-          console.log('Example app listening on port 3000!')
-        })
+          // A chunk of data has been received.
+          resp.on('data', (chunk) => {
+            data += chunk;
+          });
+
+          // The whole response has been received. Print out the result.
+          resp.on('end', () => {
+            console.log(JSON.parse(data).explanation);
+          });
+        }).on("error", (err) => {
+            console.log("Error: " + err.message);
+        });
     },
 }
 
 /*
+const https = require('https');
 
-const express = require('express')
-const app = express()
+https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
+  let data = '';
 
-//get request
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  // A chunk of data has been received.
+  resp.on('data', (chunk) => {
+    data += chunk;
+  });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-})
+  // The whole response has been received. Print out the result.
+  resp.on('end', () => {
+    console.log(JSON.parse(data).explanation);
+  });
 
+}).on("error", (err) => {
+  console.log("Error: " + err.message);
+});
 
-//post request
-npm install body-parser
-
-const express = require('express')
-const bodyParser = require('body-parser')
-
-const app = express()
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.post('/', (req, res) => {
-    let data = req.body;
-    res.send('Data Received: ' + JSON.stringify(data));
-})
-
-
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-})
 */

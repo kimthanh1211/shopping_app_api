@@ -25,5 +25,5 @@ module.exports = function(app){
     //end router cart - orders
 
     // otp telegram
-    app.get('/getotp/:phoneNumber&:chatIdTele',otpCtrl.sendOtp);
+    app.get('/getotp/phoneNumber=:phoneNumber&chatIdTele=:chatIdTele',otpCtrl.sendOtp);
 }

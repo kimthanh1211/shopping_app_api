@@ -24,17 +24,6 @@ module.exports = function(app){
     app.post('/order/history',cartCtrl.getOrders);
     //end router cart - orders
 
-    //app.router('/products')
-        //.get(productCtrl.get)
-        //.post(productCtrl.store);
-    /*
-    app.router('/product/:productId')
-        .get(productCtrl.detail)
-        .put(productCtrl.update)
-        .delete(productCtrl.detail);
-    */
     // otp telegram
-    app.router('/getotp/:phoneNumber&:chatIdTele')
-            .get(optCtrl.sendOtp)
-    */
+    app.get('/getotp/:phoneNumber&:chatIdTele',otpCtrl.sendOtp);
 }

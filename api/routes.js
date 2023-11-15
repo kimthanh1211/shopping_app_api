@@ -4,6 +4,7 @@ module.exports = function(app){
     let accountCtrl = require('./controllers/account_controller');
     let cartCtrl = require('./controllers/cart_controller');
     let otpCtrl = require('./controllers/otp_controller');
+    let csltCtrl = require('./controllers/cosoluutru_controller');
     //to do router
     //begin router product
     app.get('/products',productCtrl.get);
@@ -26,4 +27,8 @@ module.exports = function(app){
 
     // otp telegram
     app.get('/getotp/phoneNumber=:phoneNumber&chatIdTele=:chatIdTele',otpCtrl.sendOtp);
+
+    //Cosoluutru
+    app.post('/cosoluutru/addCoSoLuuTru',csltCtrl.addCoSoLuuTru);
+    app.post('/cosoluutru/getAllCoSoLuuTru',csltCtrl.getAllCoSoLuuTru);
 }

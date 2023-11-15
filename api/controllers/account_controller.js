@@ -1,10 +1,7 @@
 'use strict';
-
 const encryption = require('./../../lib/encryption');
-
 const mongodb =require('mongodb');
 const client = require('./../db');
-
 const dbName = "shopping_app";
 const collectionName = "accounts";
 const database = client.db(dbName);
@@ -135,7 +132,7 @@ module.exports ={
 
 
                   } catch (err) {
-                      json.message="error" + err;
+                      json.message="error: " + err;
                       console.error(`Something went wrong trying to find the documents: ${err}\n`);
                   }
                   finally {

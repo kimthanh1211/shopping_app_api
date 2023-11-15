@@ -29,6 +29,6 @@ module.exports = function(app){
     app.get('/getotp/phoneNumber=:phoneNumber&chatIdTele=:chatIdTele',otpCtrl.sendOtp);
 
     //Cosoluutru
-    app.post('/cosoluutru/addCoSoLuuTru',csltCtrl.addCoSoLuuTru);
-    app.post('/cosoluutru/getAllCoSoLuuTru',csltCtrl.getAllCoSoLuuTru);
+    //app.post('/cosoluutru/addCoSoLuuTru',csltCtrl.addCoSoLuuTru);
+    //app.post('/cosoluutru/getAllCoSoLuuTru',csltCtrl.getAllCoSoLuuTru);
 }
